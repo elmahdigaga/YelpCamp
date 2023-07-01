@@ -12,7 +12,7 @@ async function seedCampground() {
         });
         console.log("Campground seeded successfully");
     } catch (error) {
-        console.log("Seeding error:", error);
+        console.error("Seeding error:", error);
     }
 }
 
@@ -25,7 +25,7 @@ async function seedCampgrounds(amount) {
             await seedCampground();
         }
     } catch (error) {
-        console.log("Bulk Seeding error:", error);
+        console.error("Bulk Seeding error:", error);
     } finally {
         process.exit();
     }
