@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const { Campground } = require("../models/campground");
 
 const router = express.Router();
@@ -26,6 +27,25 @@ router.get("/:id", async (req, res) => {
         }
 
         const campground = await Campground.findOne({ _id: id });
+        if (!campground) {
+            return res.status(404).json({ error: "Campground Not Found" });
+        }
+
+        res.status(200).json({ campground });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+router.delete("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: "Invalid Campground ID" });
+        }
+
+        const campground = await Campground.findOneAndDelete({ _id: id });
         if (!campground) {
             return res.status(404).json({ error: "Campground Not Found" });
         }
