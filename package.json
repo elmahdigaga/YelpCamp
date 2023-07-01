@@ -4,7 +4,7 @@
     "description": "Campgrounds platform with Express and MongoDB",
     "main": "index.js",
     "scripts": {
-        "dev": "npx nodemon ."
+        "dev": "nodemon ."
     },
     "repository": {
         "type": "git",
