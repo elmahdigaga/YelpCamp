@@ -11,6 +11,10 @@ app.set("views", path.join(__dirname, "views"));
 
 connectDatabase();
 
+app.get("/", (req, res) => {
+    res.render("home");
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
