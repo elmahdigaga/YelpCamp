@@ -1,0 +1,25 @@
+{
+    "name": "yelpcamp",
+    "version": "1.0.0",
+    "description": "Campgrounds platform with Express and MongoDB",
+    "main": "index.js",
+    "scripts": {
+        "dev": "npx nodemon ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/elmahdigaga/YelpCamp.git"
+    },
+    "keywords": [
+        "campgrounds",
+        "express",
+        "mongodb",
+        "api"
+    ],
+    "author": "EL MAHDI GAGA",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/elmahdigaga/YelpCamp/issues"
+    },
+    "homepage": "https://github.com/elmahdigaga/YelpCamp#readme"
+}
