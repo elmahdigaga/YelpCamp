@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const { Campground } = require("../models/campground");
 
 const router = express.Router();
+router.use(express.urlencoded({ extended: true }));
 
 router.get("/", async (req, res) => {
     try {
@@ -15,6 +16,17 @@ router.get("/", async (req, res) => {
         }
 
         res.status(200).render("campgrounds/all", { campgrounds });
+    } catch (error) {
+        console.error(error);
+        res.status(500).render("errors/internal-server", {
+            error: "Internal Server Error",
+        });
+    }
+});
+
+router.get("/create", (req, res) => {
+    try {
+        res.status(200).render("campgrounds/create");
     } catch (error) {
         console.error(error);
         res.status(500).render("errors/internal-server", {

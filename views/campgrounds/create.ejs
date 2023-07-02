@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Create Campground</title>
+    </head>
+    <body style="text-align: center">
+        <h1>Create Campground:</h1>
+
+        <form action="/campgrounds" method="post">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name" />
+            <br />
+            <label for="price">Price:</label>
+            <input type="number" name="price" id="price" />
+            <br />
+            <label for="description">Description:</label>
+            <input type="text" name="description" id="description" />
+            <br />
+            <label for="location">Location:</label>
+            <input type="text" name="location" id="location" />
+            <br />
+            <button type="submit">Create</button>
+        </form>
+    </body>
+</html>
