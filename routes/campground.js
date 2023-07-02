@@ -39,7 +39,7 @@ router.get("/:id", async (req, res) => {
             });
         }
 
-        res.status(200).json({ campground });
+        res.status(200).render("campgrounds/details", { campground });
     } catch (error) {
         console.error(error);
         res.status(500).render("errors/internal-server", {
@@ -64,7 +64,7 @@ router.delete("/:id", async (req, res) => {
             });
         }
 
-        res.status(200).json({ campground });
+        res.status(200).redirect("/campgrounds");
     } catch (error) {
         console.error(error);
         res.status(500).render("errors/internal-server", {
