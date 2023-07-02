@@ -60,6 +60,26 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.post("/", async (req, res) => {
+    try {
+        const { name, price, description, location } = req.body;
+
+        const campground = await Campground.create({
+            name,
+            price,
+            description,
+            location,
+        });
+
+        res.status(201).redirect("/campgrounds");
+    } catch (error) {
+        console.error(error);
+        res.status(500).render("errors/internal-server", {
+            error: "Internal Server Error",
+        });
+    }
+});
+
 router.delete("/:id", async (req, res) => {
     try {
         const { id } = req.params;
