@@ -13,7 +13,8 @@
             <li>
                 Name: <%= campground.name %>, Price: <%= campground.price %>,
                 Description: <%= campground.description %>, Location: <%=
-                campground.location %>
+                campground.location %>:
+                <a href="/campgrounds/<%= campground._id %>">Details</a>
             </li>
             <% } %>
         </ul>
