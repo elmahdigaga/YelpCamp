@@ -8,13 +8,15 @@
 
     <body>
         <h1>All Campgrounds</h1>
+        <h3><a href="/campgrounds/create">Create a campground</a></h3>
         <ul>
             <% for( let campground of campgrounds ) { %>
             <li>
-                Name: <%= campground.name %>, Price: <%= campground.price %>,
-                Description: <%= campground.description %>, Location: <%=
-                campground.location %>:
-                <a href="/campgrounds/<%= campground._id %>">Details</a>
+                Name: <%= campground.name %> | Price: <%= campground.price %> |
+                Description: <%= campground.description %> | Location: <%=
+                campground.location %> |
+                <a href="/campgrounds/<%= campground._id %>">Details</a> |
+                <a href="/campgrounds/edit<%= campground._id %>">Edit</a>
             </li>
             <% } %>
         </ul>
