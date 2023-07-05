@@ -31,6 +31,27 @@ router.get(
 );
 
 router.get(
+    "/:id/edit",
+    handleErrors(async (req, res) => {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(404).render("errors/not-found", {
+                error: "Campground Not Found",
+            });
+        }
+
+        const campground = await Campground.findOne({ _id: id });
+        if (!campground) {
+            res.status(404).render("errors/not-found", {
+                error: "Campground Not Found",
+            });
+        }
+
+        res.status(200).render("campgrounds/edit", { campground });
+    })
+);
+
+router.get(
     "/:id",
     handleErrors(async (req, res) => {
         const { id } = req.params;
@@ -65,6 +86,38 @@ router.post(
         });
 
         res.status(201).redirect("/campgrounds");
+    })
+);
+
+router.patch(
+    "/:id",
+    handleErrors(async (req, res) => {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            res.status(404).render("errors/not-found", {
+                error: "Campground Not Found",
+            });
+        }
+
+        const { name, image, price, description, location } = req.body;
+
+        const campground = await Campground.findOneAndUpdate(
+            { _id: id },
+            {
+                name,
+                image,
+                price,
+                description,
+                location,
+            }
+        );
+        if (!campground) {
+            res.status(404).render("errors/not-found", {
+                error: "Campground Not Found",
+            });
+        }
+
+        res.status(200).redirect(`/campgrounds/${id}`);
     })
 );
 
