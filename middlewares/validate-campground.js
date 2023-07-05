@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const campgroundValidator = Joi.object({
+const campgroundSchema = Joi.object({
     name: Joi.string().min(3).max(30).required(),
     image: Joi.string().required(),
     price: Joi.number().min(0).required(),
@@ -8,4 +8,20 @@ const campgroundValidator = Joi.object({
     location: Joi.string().required(),
 });
 
-module.exports = { campgroundValidator };
+function validateCampground(req, res, next) {
+    const { name, image, price, description, location } = req.body;
+
+    const { error } = campgroundSchema.validate({
+        name,
+        image,
+        price,
+        description,
+        location,
+    });
+    if (error) {
+        throw new Error(error);
+    }
+    next();
+}
+
+module.exports = { validateCampground };

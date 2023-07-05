@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const { Campground } = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
-const { campgroundValidator } = require("../middlewares/validate-campground");
+const { validateCampground } = require("../middlewares/validate-campground");
 
 const router = express.Router();
 router.use(express.urlencoded({ extended: true }));
@@ -72,17 +72,9 @@ router.get(
 
 router.post(
     "/",
+    validateCampground,
     handleErrors(async (req, res) => {
         const { name, image, price, description, location } = req.body;
-
-        const validationResult = await campgroundValidator.validateAsync({
-            name,
-            image,
-            price,
-            description,
-            location,
-        });
-        console.log(validationResult);
 
         const campground = await Campground.create({
             name,
@@ -92,12 +84,13 @@ router.post(
             location,
         });
 
-        res.status(201).redirect("/campgrounds");
+        res.status(201).render("campgrounds/details", { campground });
     })
 );
 
 router.patch(
     "/:id",
+    validateCampground,
     handleErrors(async (req, res) => {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -107,15 +100,6 @@ router.patch(
         }
 
         const { name, image, price, description, location } = req.body;
-
-        const validationResult = await campgroundValidator.validateAsync({
-            name,
-            image,
-            price,
-            description,
-            location,
-        });
-        console.log(validationResult);
 
         const campground = await Campground.findOneAndUpdate(
             { _id: id },
