@@ -53,7 +53,10 @@ router.delete(
             });
         }
 
-        const campground = await Campground.findOneAndUpdate({ _id: id }, {});
+        const campground = await Campground.findOneAndUpdate(
+            { _id: id },
+            { $pull: { reviews: reviewId } }
+        );
         if (!campground) {
             res.status(404).render("error", {
                 error: "Campground Not Found",
