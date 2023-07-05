@@ -6,6 +6,7 @@ async function seedCampground() {
     try {
         const campground = await Campground.create({
             name: faker.location.street(),
+            image: faker.image.url(),
             price: faker.number.int({ max: 10000 }),
             description: faker.lorem.sentence(),
             location: faker.location.city() + ", " + faker.location.country(),
