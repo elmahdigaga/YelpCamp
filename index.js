@@ -18,7 +18,7 @@ connectDatabase();
 app.use("/campgrounds", campgroundsRouter);
 
 app.get("/", (req, res) => {
-    res.render("home");
+    res.status(200).render("home");
 });
 
 app.listen(port, () => {
