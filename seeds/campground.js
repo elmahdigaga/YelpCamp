@@ -1,16 +1,27 @@
 const { Campground } = require("../models/campground");
+const { Review } = require("../models/review");
 const { connectDatabase } = require("../config/database");
 const { faker } = require("@faker-js/faker");
 
 async function seedCampground() {
     try {
-        const campground = await Campground.create({
+        const campground = new Campground({
             name: faker.location.street(),
             image: faker.image.url(),
             price: faker.number.int({ max: 10000 }),
             description: faker.lorem.sentence(),
             location: faker.location.city() + ", " + faker.location.country(),
         });
+        const reviewCount = faker.number.int({ min: 5, max: 10 });
+        for (let i = 0; i < reviewCount; ++i) {
+            const review = new Review({
+                rating: faker.number.int({ min: 1, max: 5 }),
+                body: faker.lorem.sentence(),
+            });
+            campground.reviews.push(review);
+            await review.save();
+        }
+        await campground.save();
         console.log("Campground seeded successfully");
     } catch (error) {
         console.error("Seeding error:", error);
