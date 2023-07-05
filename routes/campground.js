@@ -23,12 +23,9 @@ router.get(
     })
 );
 
-router.get(
-    "/create",
-    handleErrors((req, res) => {
-        res.status(200).render("campgrounds/create");
-    })
-);
+router.get("/create", (req, res) => {
+    res.status(200).render("campgrounds/create");
+});
 
 router.get(
     "/:id/edit",
@@ -36,7 +33,7 @@ router.get(
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
             res.status(404).render("errors/not-found", {
-                error: "Campground Not Found",
+                error: "Invalid Campground ID",
             });
         }
 
@@ -57,7 +54,7 @@ router.get(
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
             res.status(404).render("errors/not-found", {
-                error: "Campground Not Found",
+                error: "Invalid Campground ID",
             });
         }
 
@@ -95,7 +92,7 @@ router.patch(
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
             res.status(404).render("errors/not-found", {
-                error: "Campground Not Found",
+                error: "Invalid Campground ID",
             });
         }
 
@@ -127,7 +124,7 @@ router.delete(
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
             res.status(404).render("errors/not-found", {
-                error: "Campground Not Found",
+                error: "Invalid Campground ID",
             });
         }
 
@@ -145,7 +142,7 @@ router.delete(
 router.use((err, req, res, next) => {
     console.error(err);
     res.status(500).render("errors/internal-server", {
-        error: "Internal Server Error",
+        error: err,
     });
 });
 
