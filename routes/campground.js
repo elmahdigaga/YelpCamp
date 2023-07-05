@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const { Campground } = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
+const { campgroundSchema } = require("../middlewares/joi");
 
 const router = express.Router();
 router.use(express.urlencoded({ extended: true }));
@@ -74,6 +75,15 @@ router.post(
     handleErrors(async (req, res) => {
         const { name, image, price, description, location } = req.body;
 
+        const validationResult = await campgroundSchema.validateAsync({
+            name,
+            image,
+            price,
+            description,
+            location,
+        });
+        console.log(validationResult);
+
         const campground = await Campground.create({
             name,
             image,
@@ -97,6 +107,15 @@ router.patch(
         }
 
         const { name, image, price, description, location } = req.body;
+
+        const validationResult = await campgroundSchema.validateAsync({
+            name,
+            image,
+            price,
+            description,
+            location,
+        });
+        console.log(validationResult);
 
         const campground = await Campground.findOneAndUpdate(
             { _id: id },
