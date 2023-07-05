@@ -14,7 +14,7 @@ router.get(
         const campgrounds = await Campground.find();
 
         if (campgrounds.length === 0) {
-            res.status(404).render("errors/not-found", {
+            res.status(404).render("error", {
                 error: "No Campgrounds Found",
             });
         }
@@ -32,14 +32,14 @@ router.get(
     handleErrors(async (req, res) => {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            res.status(404).render("errors/not-found", {
+            res.status(404).render("error", {
                 error: "Invalid Campground ID",
             });
         }
 
         const campground = await Campground.findOne({ _id: id });
         if (!campground) {
-            res.status(404).render("errors/not-found", {
+            res.status(404).render("error", {
                 error: "Campground Not Found",
             });
         }
@@ -53,14 +53,14 @@ router.get(
     handleErrors(async (req, res) => {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            res.status(404).render("errors/not-found", {
+            res.status(404).render("error", {
                 error: "Invalid Campground ID",
             });
         }
 
         const campground = await Campground.findOne({ _id: id });
         if (!campground) {
-            res.status(404).render("errors/not-found", {
+            res.status(404).render("error", {
                 error: "Campground Not Found",
             });
         }
@@ -91,7 +91,7 @@ router.patch(
     handleErrors(async (req, res) => {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            res.status(404).render("errors/not-found", {
+            res.status(404).render("error", {
                 error: "Invalid Campground ID",
             });
         }
@@ -109,7 +109,7 @@ router.patch(
             }
         );
         if (!campground) {
-            res.status(404).render("errors/not-found", {
+            res.status(404).render("error", {
                 error: "Campground Not Found",
             });
         }
@@ -123,14 +123,14 @@ router.delete(
     handleErrors(async (req, res) => {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            res.status(404).render("errors/not-found", {
+            res.status(404).render("error", {
                 error: "Invalid Campground ID",
             });
         }
 
         const campground = await Campground.findOneAndDelete({ _id: id });
         if (!campground) {
-            res.status(404).render("errors/not-found", {
+            res.status(404).render("error", {
                 error: "Campground Not Found",
             });
         }
@@ -141,7 +141,7 @@ router.delete(
 
 router.use((err, req, res, next) => {
     console.error(err);
-    res.status(500).render("errors/internal-server", {
+    res.status(500).render("error", {
         error: err,
     });
 });
