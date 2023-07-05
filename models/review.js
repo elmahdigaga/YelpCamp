@@ -8,6 +8,7 @@ const reviewSchema = new Schema({
     },
     body: {
         type: String,
+        required: [true, "Review body is required"],
     },
 });
 
