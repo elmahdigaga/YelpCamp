@@ -11,6 +11,7 @@ const router = express.Router();
 router.use(express.urlencoded({ extended: true }));
 router.use(methodOverride("_method"));
 
+// Create a review
 router.post(
     "/:id/reviews",
     validateReview,
@@ -40,6 +41,7 @@ router.post(
     })
 );
 
+// Delete a review
 router.delete(
     "/:id/reviews/:reviewId",
     handleErrors(async (req, res) => {
@@ -74,6 +76,7 @@ router.delete(
     })
 );
 
+// Get all campgrounds
 router.get(
     "/",
     handleErrors(async (req, res) => {
@@ -89,10 +92,12 @@ router.get(
     })
 );
 
+// GET campground Creation view
 router.get("/create", (req, res) => {
     res.status(200).render("campgrounds/create");
 });
 
+// GET campground Edit/Update view
 router.get(
     "/:id/edit",
     handleErrors(async (req, res) => {
@@ -114,6 +119,7 @@ router.get(
     })
 );
 
+// Get campground details by id
 router.get(
     "/:id",
     handleErrors(async (req, res) => {
@@ -137,6 +143,7 @@ router.get(
     })
 );
 
+// Create a campground
 router.post(
     "/",
     validateCampground,
@@ -155,6 +162,7 @@ router.post(
     })
 );
 
+// Update a campground
 router.patch(
     "/:id",
     validateCampground,
@@ -188,6 +196,7 @@ router.patch(
     })
 );
 
+// Delete a campground
 router.delete(
     "/:id",
     handleErrors(async (req, res) => {
@@ -209,6 +218,7 @@ router.delete(
     })
 );
 
+// Error handling middleware
 router.use((err, req, res, next) => {
     console.error(err);
     res.status(500).render("error", {
