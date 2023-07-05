@@ -17,10 +17,7 @@ router.get("/", async (req, res) => {
 
         res.status(200).render("campgrounds/all", { campgrounds });
     } catch (error) {
-        console.error(error);
-        res.status(500).render("errors/internal-server", {
-            error: "Internal Server Error",
-        });
+        next(error);
     }
 });
 
@@ -28,10 +25,7 @@ router.get("/create", (req, res) => {
     try {
         res.status(200).render("campgrounds/create");
     } catch (error) {
-        console.error(error);
-        res.status(500).render("errors/internal-server", {
-            error: "Internal Server Error",
-        });
+        next(error);
     }
 });
 
@@ -53,10 +47,7 @@ router.get("/:id", async (req, res) => {
 
         res.status(200).render("campgrounds/details", { campground });
     } catch (error) {
-        console.error(error);
-        res.status(500).render("errors/internal-server", {
-            error: "Internal Server Error",
-        });
+        next(error);
     }
 });
 
@@ -73,10 +64,7 @@ router.post("/", async (req, res) => {
 
         res.status(201).redirect("/campgrounds");
     } catch (error) {
-        console.error(error);
-        res.status(500).render("errors/internal-server", {
-            error: "Internal Server Error",
-        });
+        next(error);
     }
 });
 
@@ -98,11 +86,15 @@ router.delete("/:id", async (req, res) => {
 
         res.status(200).redirect("/campgrounds");
     } catch (error) {
-        console.error(error);
-        res.status(500).render("errors/internal-server", {
-            error: "Internal Server Error",
-        });
+        next(error);
     }
+});
+
+router.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).render("errors/internal-server", {
+        error: "Internal Server Error",
+    });
 });
 
 module.exports = router;
