@@ -31,6 +31,12 @@ const campgroundSchema = new Schema({
         default: Date.now,
         required: true,
     },
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Review",
+        },
+    ],
 });
 
 const Campground = mongoose.model("Campground", campgroundSchema);
