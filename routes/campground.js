@@ -52,10 +52,11 @@ router.get(
 router.post(
     "/",
     handleErrors(async (req, res) => {
-        const { name, price, description, location } = req.body;
+        const { name, image, price, description, location } = req.body;
 
         const campground = await Campground.create({
             name,
+            image,
             price,
             description,
             location,
