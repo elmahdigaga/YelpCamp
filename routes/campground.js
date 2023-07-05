@@ -1,10 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const methodOverride = require("method-override");
 const { Campground } = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
 
 const router = express.Router();
 router.use(express.urlencoded({ extended: true }));
+router.use(methodOverride("_method"));
 
 router.get(
     "/",
