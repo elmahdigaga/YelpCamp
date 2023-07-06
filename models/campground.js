@@ -40,6 +40,7 @@ const campgroundSchema = new Schema({
     ],
 });
 
+// Adding a post middleware to delete associated reviews when a campground is deleted
 campgroundSchema.post("findOneAndDelete", async function (campground) {
     try {
         if (campground.reviews.length) {
