@@ -1,80 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const methodOverride = require("method-override");
 const { Campground } = require("../models/campground");
-const { Review } = require("../models/review");
 const { handleErrors } = require("../utils/helpers");
 const { validateCampground } = require("../middlewares/validate-campground");
-const { validateReview } = require("../middlewares/validate-review");
 
 const router = express.Router();
-router.use(express.urlencoded({ extended: true }));
-router.use(methodOverride("_method"));
-
-// Create a review
-router.post(
-    "/:id/reviews",
-    validateReview,
-    handleErrors(async (req, res) => {
-        const { id } = req.params;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            res.status(400).render("error", {
-                error: "Invalid Campground ID",
-            });
-        }
-
-        const campground = await Campground.findOne({ _id: id });
-        if (!campground) {
-            res.status(404).render("error", {
-                error: "Campground Not Found",
-            });
-        }
-
-        const { rating, body } = req.body;
-        const review = new Review({ rating, body });
-
-        campground.reviews.push(review);
-        await review.save();
-        await campground.save();
-
-        res.status(201).redirect(`/campgrounds/${campground._id}`);
-    })
-);
-
-// Delete a review
-router.delete(
-    "/:id/reviews/:reviewId",
-    handleErrors(async (req, res) => {
-        const { id, reviewId } = req.params;
-        if (
-            !mongoose.Types.ObjectId.isValid(id) ||
-            !mongoose.Types.ObjectId.isValid(reviewId)
-        ) {
-            res.status(400).render("error", {
-                error: "Invalid ID",
-            });
-        }
-
-        const campground = await Campground.findOneAndUpdate(
-            { _id: id },
-            { $pull: { reviews: reviewId } }
-        );
-        if (!campground) {
-            res.status(404).render("error", {
-                error: "Campground Not Found",
-            });
-        }
-
-        const review = await Review.findOneAndDelete({ _id: reviewId });
-        if (!review) {
-            res.status(404).render("error", {
-                error: "Review Not Found",
-            });
-        }
-
-        res.status(200).redirect(`/campgrounds/${id}`);
-    })
-);
 
 // Get all campgrounds
 router.get(

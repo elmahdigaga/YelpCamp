@@ -1,12 +1,17 @@
 const express = require("express");
 const path = require("path");
+const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const { connectDatabase } = require("./config/database");
 const campgroundsRouter = require("./routes/campground");
+const reviewsRouter = require("./routes/review");
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 // Configure server
 app.engine("ejs", ejsMate);
@@ -18,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 connectDatabase();
 
 // Routes
+app.use("/campgrounds/:id/reviews", reviewsRouter);
 app.use("/campgrounds", campgroundsRouter);
 
 // Home route
