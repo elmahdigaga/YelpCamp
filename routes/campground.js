@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { Campground } = require("../models/campground");
+const Campground = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
 const { validateCampground } = require("../middlewares/validate-campground");
 

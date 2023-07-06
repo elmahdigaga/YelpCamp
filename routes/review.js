@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { Campground } = require("../models/campground");
-const { Review } = require("../models/review");
+const Review = require("../models/review");
+const Campground = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
 const { validateReview } = require("../middlewares/validate-review");
 

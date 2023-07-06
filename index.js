@@ -2,9 +2,9 @@ const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const { connectDatabase } = require("./config/database");
 const campgroundsRouter = require("./routes/campground");
 const reviewsRouter = require("./routes/review");
+const { connectDatabase } = require("./config/database");
 require("dotenv").config();
 
 const app = express();
