@@ -1,7 +1,8 @@
 const express = require("express");
 const path = require("path");
-const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const expressSession = require("express-session");
+const methodOverride = require("method-override");
 const campgroundsRouter = require("./routes/campground");
 const reviewsRouter = require("./routes/review");
 const { connectDatabase } = require("./config/database");
@@ -12,12 +13,19 @@ const port = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(
+    expressSession({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+    })
+);
+app.use(express.static(path.join(__dirname, "public")));
 
 // Configure server
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
 
 // Connect to the database
 connectDatabase();
