@@ -14,16 +14,14 @@ router.post(
     handleErrors(async (req, res) => {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            res.status(400).render("error", {
-                error: "Invalid Campground ID",
-            });
+            req.flash("error", "Invalid Campground ID!");
+            res.status(400).redirect("/campgrounds");
         }
 
         const campground = await Campground.findOne({ _id: id });
         if (!campground) {
-            res.status(404).render("error", {
-                error: "Campground Not Found",
-            });
+            req.flash("error", "Campground Not Found!");
+            res.status(404).redirect("/campgrounds");
         }
 
         const { rating, body } = req.body;
@@ -57,16 +55,14 @@ router.delete(
             { $pull: { reviews: reviewId } }
         );
         if (!campground) {
-            res.status(404).render("error", {
-                error: "Campground Not Found",
-            });
+            req.flash("error", "Campground Not Found!");
+            res.status(404).redirect("/campgrounds");
         }
 
         const review = await Review.findOneAndDelete({ _id: reviewId });
         if (!review) {
-            res.status(404).render("error", {
-                error: "Review Not Found",
-            });
+            req.flash("error", "Review Not Found!");
+            res.status(404).redirect(`/campgrounds/${id}`);
         }
 
         req.flash("success", "Review deleted successfully!");
