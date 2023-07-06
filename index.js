@@ -1,7 +1,8 @@
 const express = require("express");
 const path = require("path");
 const ejsMate = require("ejs-mate");
-const expressSession = require("express-session");
+const session = require("express-session");
+const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const campgroundsRouter = require("./routes/campground");
 const reviewsRouter = require("./routes/review");
@@ -14,7 +15,7 @@ const port = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(
-    expressSession({
+    session({
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
@@ -25,7 +26,13 @@ app.use(
         },
     })
 );
+app.use(flash());
 app.use(express.static(path.join(__dirname, "public")));
+app.use((req, res, next) => {
+    res.locals.flashSuccess = req.flash("success");
+    res.locals.flashError = req.flash("error");
+    next();
+});
 
 // Configure server
 app.engine("ejs", ejsMate);

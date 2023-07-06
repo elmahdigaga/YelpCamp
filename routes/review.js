@@ -33,6 +33,7 @@ router.post(
         await review.save();
         await campground.save();
 
+        req.flash("success", "Review created successfully!");
         res.status(201).redirect(`/campgrounds/${campground._id}`);
     })
 );
@@ -68,6 +69,7 @@ router.delete(
             });
         }
 
+        req.flash("success", "Review deleted successfully!");
         res.status(200).redirect(`/campgrounds/${id}`);
     })
 );
