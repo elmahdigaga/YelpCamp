@@ -1,8 +1,10 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const Campground = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
 const { validateCampground } = require("../middlewares/validate-campground");
+const {
+    validateCampgroundId,
+} = require("../middlewares/validate-campground-id");
 
 const router = express.Router();
 
@@ -29,13 +31,8 @@ router.get("/create", (req, res) => {
 // GET campground Edit/Update view
 router.get(
     "/:id/edit",
+    validateCampgroundId,
     handleErrors(async (req, res) => {
-        const { id } = req.params;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            req.flash("error", "Invalid Campground ID!");
-            res.status(400).redirect("/campgrounds");
-        }
-
         const campground = await Campground.findOne({ _id: id });
         if (!campground) {
             req.flash("error", "Campground Not Found!");
@@ -49,13 +46,8 @@ router.get(
 // Get campground details by id
 router.get(
     "/:id",
+    validateCampgroundId,
     handleErrors(async (req, res) => {
-        const { id } = req.params;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            req.flash("error", "Invalid Campground ID!");
-            res.status(400).redirect("/campgrounds");
-        }
-
         const campground = await Campground.findOne({ _id: id }).populate(
             "reviews"
         );
@@ -91,14 +83,9 @@ router.post(
 // Update a campground
 router.patch(
     "/:id",
+    validateCampgroundId,
     validateCampground,
     handleErrors(async (req, res) => {
-        const { id } = req.params;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            req.flash("error", "Invalid Campground ID!");
-            res.status(400).redirect("/campgrounds");
-        }
-
         const { name, image, price, description, location } = req.body;
 
         const campground = await Campground.findOneAndUpdate(
@@ -124,13 +111,8 @@ router.patch(
 // Delete a campground
 router.delete(
     "/:id",
+    validateCampgroundId,
     handleErrors(async (req, res) => {
-        const { id } = req.params;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            req.flash("error", "Invalid Campground ID!");
-            res.status(400).redirect("/campgrounds");
-        }
-
         const campground = await Campground.findOneAndDelete({ _id: id });
         if (!campground) {
             req.flash("error", "Campground Not Found!");
