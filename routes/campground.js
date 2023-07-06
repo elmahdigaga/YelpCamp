@@ -88,7 +88,8 @@ router.post(
             location,
         });
 
-        res.status(201).render("campgrounds/details", { campground });
+        req.flash("success", "Campground created successfully!");
+        res.status(200).redirect(`/campgrounds/${campground._id}`);
     })
 );
 
@@ -122,6 +123,7 @@ router.patch(
             });
         }
 
+        req.flash("success", "Campground updated successfully!");
         res.status(200).redirect(`/campgrounds/${id}`);
     })
 );
@@ -144,6 +146,7 @@ router.delete(
             });
         }
 
+        req.flash("success", "Campground deleted successfully!");
         res.status(200).redirect("/campgrounds");
     })
 );
