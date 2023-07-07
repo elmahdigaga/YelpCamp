@@ -22,6 +22,10 @@ const campgroundSchema = new Schema({
         type: String,
         required: [true, "Location is required"],
     },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    },
     date: {
         type: Date,
         default: Date.now,
