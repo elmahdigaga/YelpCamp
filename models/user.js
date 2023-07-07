@@ -8,6 +8,16 @@ const userSchema = new Schema({
         required: [true, "Email is required"],
         unique: true,
     },
+    date: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
+    date_modified: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
 });
 
 // The plugin automatically adds the username, salt and hash fields in the schema, aswell as other methods

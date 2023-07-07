@@ -10,6 +10,16 @@ const reviewSchema = new Schema({
         type: String,
         required: [true, "Review body is required"],
     },
+    date: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
+    date_modified: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
 });
 
 const Review = mongoose.model("Review", reviewSchema);
