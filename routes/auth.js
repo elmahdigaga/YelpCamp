@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const User = require("../models/user");
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
+const { storeReturnTo } = require("../middlewares/auth/store-return-to");
 const { handleErrors } = require("../utils/helpers");
 
 const router = express.Router();
@@ -40,13 +41,16 @@ router.get("/login", (req, res) => {
 
 router.post(
     "/login",
+    storeReturnTo,
     passport.authenticate("local", {
         failureFlash: true,
         failureRedirect: "/auth/login",
     }),
     (req, res) => {
         req.flash("success", "Welcome");
-        res.status(200).redirect("/campgrounds");
+        const redirectUrl = res.locals.returnTo || "/campgrounds";
+        delete req.session.returnTo;
+        res.status(200).redirect(redirectUrl);
     }
 );
 
