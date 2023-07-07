@@ -1,7 +1,7 @@
 const { Campground } = require("../models/campground");
 const { Review } = require("../models/review");
-const { connectDatabase } = require("../config/database");
 const { faker } = require("@faker-js/faker");
+const { connectDatabase } = require("../config/database");
 
 // Function to seed a single campground
 async function seedCampground() {
