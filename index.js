@@ -9,6 +9,7 @@ const LocalStrategy = require("passport-local");
 require("dotenv").config();
 const campgroundsRouter = require("./routes/campground");
 const reviewsRouter = require("./routes/review");
+const authRouter = require("./routes/auth");
 const { connectDatabase } = require("./config/database");
 const User = require("./models/user");
 
@@ -58,6 +59,7 @@ connectDatabase();
 // Routes
 app.use("/campgrounds/:id/reviews", reviewsRouter);
 app.use("/campgrounds", campgroundsRouter);
+app.use("/auth", authRouter);
 
 // Home route
 app.get("/", (req, res) => {
