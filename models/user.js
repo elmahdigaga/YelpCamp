@@ -10,6 +10,7 @@ const userSchema = new Schema({
     },
 });
 
+// The plugin automatically adds the username, salt and hash fields in the schema, aswell as other methods
 userSchema.plugin(passportLocalMongoose);
 
 const User = mongoose.model("User", userSchema);
