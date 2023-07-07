@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const Review = require("../models/review");
 const Campground = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
-const { validateReview } = require("../middlewares/validate-review");
+const { validateReview } = require("../middlewares/campground/validate-review");
 const {
     validateCampgroundId,
-} = require("../middlewares/validate-campground-id");
+} = require("../middlewares/campground/validate-campground-id");
 
 const router = express.Router({ mergeParams: true });
 

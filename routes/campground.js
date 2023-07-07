@@ -1,10 +1,12 @@
 const express = require("express");
 const Campground = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
-const { validateCampground } = require("../middlewares/validate-campground");
+const {
+    validateCampground,
+} = require("../middlewares/campground/validate-campground");
 const {
     validateCampgroundId,
-} = require("../middlewares/validate-campground-id");
+} = require("../middlewares/campground/validate-campground-id");
 
 const router = express.Router();
 
