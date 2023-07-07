@@ -2,11 +2,11 @@ const express = require("express");
 const Review = require("../models/review");
 const Campground = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
-const { validateReview } = require("../middlewares/campground/validate-review");
+const { validateReview } = require("../middlewares/validation/validate-review");
 const {
     validateCampgroundId,
     validateReviewId,
-} = require("../middlewares/validate-id");
+} = require("../middlewares/validation/validate-id");
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 
 const router = express.Router({ mergeParams: true });

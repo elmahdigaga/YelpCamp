@@ -3,8 +3,10 @@ const Campground = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
 const {
     validateCampground,
-} = require("../middlewares/campground/validate-campground");
-const { validateCampgroundId } = require("../middlewares/validate-id");
+} = require("../middlewares/validation/validate-campground");
+const {
+    validateCampgroundId,
+} = require("../middlewares/validation/validate-id");
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 
 const router = express.Router();
