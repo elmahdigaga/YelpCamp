@@ -7,12 +7,14 @@ const { validateReview } = require("../middlewares/campground/validate-review");
 const {
     validateCampgroundId,
 } = require("../middlewares/campground/validate-campground-id");
+const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 
 const router = express.Router({ mergeParams: true });
 
 // Create a review
 router.post(
     "/",
+    isLoggedIn,
     validateCampgroundId,
     validateReview,
     handleErrors(async (req, res) => {
@@ -37,6 +39,7 @@ router.post(
 // Delete a review
 router.delete(
     "/:reviewId",
+    isLoggedIn,
     handleErrors(async (req, res) => {
         const { id, reviewId } = req.params;
         if (

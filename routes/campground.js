@@ -7,6 +7,7 @@ const {
 const {
     validateCampgroundId,
 } = require("../middlewares/campground/validate-campground-id");
+const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 
 const router = express.Router();
 
@@ -26,13 +27,14 @@ router.get(
 );
 
 // GET campground Creation view
-router.get("/create", (req, res) => {
+router.get("/create", isLoggedIn, (req, res) => {
     res.status(200).render("campgrounds/create");
 });
 
 // GET campground Edit/Update view
 router.get(
     "/:id/edit",
+    isLoggedIn,
     validateCampgroundId,
     handleErrors(async (req, res) => {
         const campground = await Campground.findOne({ _id: id });
@@ -65,6 +67,7 @@ router.get(
 // Create a campground
 router.post(
     "/",
+    isLoggedIn,
     validateCampground,
     handleErrors(async (req, res) => {
         const { name, image, price, description, location } = req.body;
@@ -85,6 +88,7 @@ router.post(
 // Update a campground
 router.patch(
     "/:id",
+    isLoggedIn,
     validateCampgroundId,
     validateCampground,
     handleErrors(async (req, res) => {
@@ -113,6 +117,7 @@ router.patch(
 // Delete a campground
 router.delete(
     "/:id",
+    isLoggedIn,
     validateCampgroundId,
     handleErrors(async (req, res) => {
         const campground = await Campground.findOneAndDelete({ _id: id });
