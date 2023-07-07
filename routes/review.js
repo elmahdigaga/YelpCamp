@@ -27,7 +27,8 @@ router.post(
         }
 
         const { rating, body } = req.body;
-        const review = new Review({ rating, body });
+        const author = req.user._id;
+        const review = new Review({ rating, body, author });
 
         campground.reviews.push(review);
         await review.save();

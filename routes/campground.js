@@ -56,9 +56,9 @@ router.get(
     handleErrors(async (req, res) => {
         const { id } = req.params;
 
-        const campground = await Campground.findOne({ _id: id }).populate(
-            "reviews"
-        );
+        const campground = await Campground.findOne({ _id: id })
+            .populate("reviews")
+            .populate("author");
         if (!campground) {
             req.flash("error", "Campground Not Found!");
             res.status(404).redirect("/campgrounds");
@@ -75,6 +75,7 @@ router.post(
     validateCampground,
     handleErrors(async (req, res) => {
         const { name, image, price, description, location } = req.body;
+        const author = req.user._id;
 
         const campground = await Campground.create({
             name,
@@ -82,6 +83,7 @@ router.post(
             price,
             description,
             location,
+            author,
         });
 
         req.flash("success", "Campground created successfully!");

@@ -13,6 +13,10 @@
                     <%= campground.location %>
                 </li>
                 <li class="list-group-item">$<%= campground.price %>/night</li>
+                <li class="list-group-item">
+                    <span class="text-muted">Written by </span><%=
+                    campground.author.username %>
+                </li>
             </ul>
             <div class="card-body">
                 <a
