@@ -107,6 +107,7 @@ router.patch(
                 price,
                 description,
                 location,
+                date_modified: Date.now(),
             }
         );
         if (!campground) {
