@@ -4,20 +4,18 @@ const Review = require("../models/review");
 const Campground = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
 const { validateReview } = require("../middlewares/validate-review");
+const {
+    validateCampgroundId,
+} = require("../middlewares/validate-campground-id");
 
 const router = express.Router({ mergeParams: true });
 
 // Create a review
 router.post(
     "/",
+    validateCampgroundId,
     validateReview,
     handleErrors(async (req, res) => {
-        const { id } = req.params;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            req.flash("error", "Invalid Campground ID!");
-            res.status(400).redirect("/campgrounds");
-        }
-
         const campground = await Campground.findOne({ _id: id });
         if (!campground) {
             req.flash("error", "Campground Not Found!");

@@ -21,6 +21,7 @@ function validateCampground(req, res, next) {
     if (error) {
         throw new Error(error);
     }
+
     next();
 }
 

@@ -12,6 +12,7 @@ function validateReview(req, res, next) {
     if (error) {
         throw new Error(error);
     }
+
     next();
 }
 
