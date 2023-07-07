@@ -37,6 +37,8 @@ router.get(
     isLoggedIn,
     validateCampgroundId,
     handleErrors(async (req, res) => {
+        const { id } = req.params;
+
         const campground = await Campground.findOne({ _id: id });
         if (!campground) {
             req.flash("error", "Campground Not Found!");
@@ -52,6 +54,8 @@ router.get(
     "/:id",
     validateCampgroundId,
     handleErrors(async (req, res) => {
+        const { id } = req.params;
+
         const campground = await Campground.findOne({ _id: id }).populate(
             "reviews"
         );
@@ -92,6 +96,7 @@ router.patch(
     validateCampgroundId,
     validateCampground,
     handleErrors(async (req, res) => {
+        const { id } = req.params;
         const { name, image, price, description, location } = req.body;
 
         const campground = await Campground.findOneAndUpdate(
@@ -120,6 +125,8 @@ router.delete(
     isLoggedIn,
     validateCampgroundId,
     handleErrors(async (req, res) => {
+        const { id } = req.params;
+
         const campground = await Campground.findOneAndDelete({ _id: id });
         if (!campground) {
             req.flash("error", "Campground Not Found!");

@@ -18,6 +18,8 @@ router.post(
     validateCampgroundId,
     validateReview,
     handleErrors(async (req, res) => {
+        const { id } = req.params;
+
         const campground = await Campground.findOne({ _id: id });
         if (!campground) {
             req.flash("error", "Campground Not Found!");
