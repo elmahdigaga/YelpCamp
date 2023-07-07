@@ -16,7 +16,7 @@ router.post(
         try {
             const { email, username, password } = req.body;
 
-            let user = await User.create({ email, username });
+            let user = new User({ email, username });
             user = await User.register(user, password);
 
             req.login(user, (err) => {
