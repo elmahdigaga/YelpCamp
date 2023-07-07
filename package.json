@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "dev": "nodemon .",
-        "seeder": "node ./seeds/campground"
+        "seedUsers": "node ./seeds/user",
+        "seedReviews": "node ./seeds/review"
     },
     "repository": {
         "type": "git",

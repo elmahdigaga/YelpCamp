@@ -4,6 +4,7 @@ const User = require("../models/user");
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 const { storeReturnTo } = require("../middlewares/auth/store-return-to");
 const { handleErrors } = require("../utils/helpers");
+const { validateUser } = require("../middlewares/validation/validate-user");
 
 const router = express.Router();
 
@@ -13,6 +14,7 @@ router.get("/register", (req, res) => {
 
 router.post(
     "/register",
+    validateUser,
     handleErrors(async (req, res) => {
         try {
             const { email, username, password } = req.body;
