@@ -34,11 +34,6 @@ app.use(
     })
 );
 app.use(flash());
-app.use((req, res, next) => {
-    res.locals.flashSuccess = req.flash("success");
-    res.locals.flashError = req.flash("error");
-    next();
-});
 
 // Auth middlewares
 app.use(passport.initialize());
@@ -46,6 +41,13 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.flashSuccess = req.flash("success");
+    res.locals.flashError = req.flash("error");
+    next();
+});
 
 // Configure server
 app.engine("ejs", ejsMate);
