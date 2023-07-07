@@ -18,4 +18,13 @@ function validateReviewId(req, res, next) {
     next();
 }
 
-module.exports = { validateCampgroundId, validateReviewId };
+function validateUserId(req, res, next) {
+    const { userId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        req.flash("error", "Invalid User ID!");
+        return res.status(400).redirect("/campgrounds");
+    }
+    next();
+}
+
+module.exports = { validateCampgroundId, validateReviewId, validateUserId };
