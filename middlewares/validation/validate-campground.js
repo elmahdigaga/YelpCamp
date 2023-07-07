@@ -19,7 +19,15 @@ function validateCampground(req, res, next) {
         location,
     });
     if (error) {
-        throw new Error(error);
+        req.flash("error", error.message);
+        const redirectUrl =
+            req.originalUrl === "/campgrounds"
+                ? "/campgrounds/create"
+                : `${req.originalUrl.substring(
+                      0,
+                      req.originalUrl.indexOf("?")
+                  )}/edit`;
+        return res.status(400).redirect(redirectUrl);
     }
 
     next();

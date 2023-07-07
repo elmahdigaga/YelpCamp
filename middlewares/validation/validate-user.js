@@ -15,7 +15,8 @@ function validateUser(req, res, next) {
         password,
     });
     if (error) {
-        throw new Error(error);
+        req.flash("error", error.message);
+        return res.status(400).redirect("/auth/register");
     }
 
     next();
