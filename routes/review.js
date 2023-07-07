@@ -1,12 +1,12 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const Review = require("../models/review");
 const Campground = require("../models/campground");
 const { handleErrors } = require("../utils/helpers");
 const { validateReview } = require("../middlewares/campground/validate-review");
 const {
     validateCampgroundId,
-} = require("../middlewares/campground/validate-campground-id");
+    validateReviewId,
+} = require("../middlewares/validate-id");
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 
 const router = express.Router({ mergeParams: true });
@@ -42,16 +42,10 @@ router.post(
 router.delete(
     "/:reviewId",
     isLoggedIn,
+    validateCampgroundId,
+    validateReviewId,
     handleErrors(async (req, res) => {
         const { id, reviewId } = req.params;
-        if (
-            !mongoose.Types.ObjectId.isValid(id) ||
-            !mongoose.Types.ObjectId.isValid(reviewId)
-        ) {
-            res.status(400).render("error", {
-                error: "Invalid ID",
-            });
-        }
 
         const campground = await Campground.findOneAndUpdate(
             { _id: id },
