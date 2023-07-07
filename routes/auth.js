@@ -15,11 +15,18 @@ router.post(
     handleErrors(async (req, res) => {
         try {
             const { email, username, password } = req.body;
+
             let user = await User.create({ email, username });
             user = await User.register(user, password);
 
-            req.flash("success", "Welcome");
-            res.status(400).redirect("/campgrounds");
+            req.login(user, (err) => {
+                if (err) {
+                    return next(err);
+                }
+
+                req.flash("success", "Welcome");
+                res.status(400).redirect("/campgrounds");
+            });
         } catch (error) {
             req.flash("error", error.message);
             res.status(400).redirect("/auth/register");
