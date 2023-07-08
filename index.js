@@ -1,3 +1,4 @@
+// Packages
 const express = require("express");
 const path = require("path");
 const ejsMate = require("ejs-mate");
@@ -7,14 +8,23 @@ const methodOverride = require("method-override");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 require("dotenv").config();
+
+// Routes
 const campgroundsRouter = require("./routes/campground");
 const reviewsRouter = require("./routes/review");
 const authRouter = require("./routes/auth");
+
+// Config
 const { connectDatabase } = require("./config/database");
+
+// Models
 const User = require("./models/user");
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Error handling middleware
+const { errorHandler } = require("./middlewares/error-handler");
 
 // Parsing middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -67,6 +77,9 @@ app.use("/auth", authRouter);
 app.get("/", (req, res) => {
     res.status(200).render("home");
 });
+
+// Error handling middleware
+app.use(errorHandler);
 
 // Start the server
 app.listen(port, () => {

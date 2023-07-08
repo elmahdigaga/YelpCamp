@@ -1,6 +1,10 @@
+// Packages
 const express = require("express");
-const Campground = require("../models/campground");
-const { handleErrors } = require("../utils/helpers");
+
+// Controllers
+const campground = require("../controllers/campground");
+
+// Middlewares
 const {
     validateCampground,
 } = require("../middlewares/validation/validate-campground");
@@ -10,135 +14,52 @@ const {
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 const { isAuthor } = require("../middlewares/auth/is-author");
 
+// Helpers
+const { handleErrors } = require("../utils/helpers");
+
 const router = express.Router();
 
-// Get all campgrounds
-router.get(
-    "/",
-    handleErrors(async (req, res) => {
-        const campgrounds = await Campground.find();
-
-        if (campgrounds.length === 0) {
-            req.flash("error", "No Campgrounds Found!");
-            res.status(404).redirect("/");
-        }
-
-        res.status(200).render("campgrounds/all", { campgrounds });
-    })
-);
-
-// GET campground Creation view
-router.get("/create", isLoggedIn, (req, res) => {
-    res.status(200).render("campgrounds/create");
-});
-
-// GET campground Edit/Update view
+// GET
+router.get("/", handleErrors(campground.index));
+router.get("/create", isLoggedIn, campground.renderCreate);
 router.get(
     "/:id/edit",
     isLoggedIn,
     validateCampgroundId,
     isAuthor,
-    handleErrors(async (req, res) => {
-        const { id } = req.params;
-
-        const campground = await Campground.findOne({ _id: id });
-
-        res.status(200).render("campgrounds/edit", { campground });
-    })
+    handleErrors(campground.renderEdit)
 );
-
-// Get campground details by id
 router.get(
     "/:id",
     validateCampgroundId,
-    handleErrors(async (req, res) => {
-        const { id } = req.params;
-
-        const campground = await Campground.findOne({ _id: id })
-            .populate({ path: "reviews", populate: { path: "author" } })
-            .populate("author");
-        if (!campground) {
-            req.flash("error", "Campground Not Found!");
-            res.status(404).redirect("/campgrounds");
-        }
-
-        res.status(200).render("campgrounds/details", { campground });
-    })
+    handleErrors(campground.renderDetails)
 );
 
-// Create a campground
+// POST
 router.post(
     "/",
     isLoggedIn,
     validateCampground,
-    handleErrors(async (req, res) => {
-        const { name, image, price, description, location } = req.body;
-        const author = req.user._id;
-
-        const campground = await Campground.create({
-            name,
-            image,
-            price,
-            description,
-            location,
-            author,
-        });
-
-        req.flash("success", "Campground created successfully!");
-        res.status(200).redirect(`/campgrounds/${campground._id}`);
-    })
+    handleErrors(campground.create)
 );
 
-// Update a campground
+// PATCH
 router.patch(
     "/:id",
     isLoggedIn,
     validateCampgroundId,
     isAuthor,
     validateCampground,
-    handleErrors(async (req, res) => {
-        const { id } = req.params;
-        const { name, image, price, description, location } = req.body;
-
-        await Campground.updateOne(
-            { _id: id },
-            {
-                name,
-                image,
-                price,
-                description,
-                location,
-                date_modified: Date.now(),
-            }
-        );
-
-        req.flash("success", "Campground updated successfully!");
-        res.status(200).redirect(`/campgrounds/${id}`);
-    })
+    handleErrors(campground.update)
 );
 
-// Delete a campground
+// DELETE
 router.delete(
     "/:id",
     isLoggedIn,
     validateCampgroundId,
     isAuthor,
-    handleErrors(async (req, res) => {
-        const { id } = req.params;
-
-        await Campground.deleteOne({ _id: id });
-
-        req.flash("success", "Campground deleted successfully!");
-        res.status(200).redirect("/campgrounds");
-    })
+    handleErrors(campground.remove)
 );
-
-// Error handling middleware
-router.use((err, req, res, next) => {
-    console.error(err);
-    res.status(500).render("error", {
-        error: err,
-    });
-});
 
 module.exports = router;
