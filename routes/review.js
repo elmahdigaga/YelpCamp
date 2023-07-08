@@ -8,6 +8,7 @@ const {
     validateReviewId,
 } = require("../middlewares/validation/validate-id");
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
+const { isReviewAuthor } = require("../middlewares/auth/is-review-author");
 
 const router = express.Router({ mergeParams: true });
 
@@ -45,6 +46,7 @@ router.delete(
     isLoggedIn,
     validateCampgroundId,
     validateReviewId,
+    isReviewAuthor,
     handleErrors(async (req, res) => {
         const { id, reviewId } = req.params;
 
@@ -58,10 +60,6 @@ router.delete(
         }
 
         const review = await Review.findOneAndDelete({ _id: reviewId });
-        if (!review) {
-            req.flash("error", "Review Not Found!");
-            res.status(404).redirect(`/campgrounds/${id}`);
-        }
 
         req.flash("success", "Review deleted successfully!");
         res.status(200).redirect(`/campgrounds/${id}`);
