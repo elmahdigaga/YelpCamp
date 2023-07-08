@@ -1,6 +1,11 @@
+// Packages
 const express = require("express");
 const passport = require("passport");
-const User = require("../models/user");
+
+// Controllers
+const auth = require("../controllers/auth");
+
+// Middlewares
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 const { storeReturnTo } = require("../middlewares/auth/store-return-to");
 const { handleErrors } = require("../utils/helpers");
@@ -8,39 +13,13 @@ const { validateUser } = require("../middlewares/validation/validate-user");
 
 const router = express.Router();
 
-router.get("/register", (req, res) => {
-    res.status(200).render("auth/register");
-});
+// GET
+router.get("/register", auth.renderRegister);
+router.get("/login", auth.renderLogin);
+router.get("/logout", isLoggedIn, auth.logout);
 
-router.post(
-    "/register",
-    validateUser,
-    handleErrors(async (req, res) => {
-        try {
-            const { email, username, password } = req.body;
-
-            let user = new User({ email, username });
-            user = await User.register(user, password);
-
-            req.login(user, (err) => {
-                if (err) {
-                    return next(err);
-                }
-
-                req.flash("success", "Welcome");
-                res.status(400).redirect("/campgrounds");
-            });
-        } catch (error) {
-            req.flash("error", error.message);
-            res.status(400).redirect("/auth/register");
-        }
-    })
-);
-
-router.get("/login", (req, res) => {
-    res.status(200).render("auth/login");
-});
-
+// POST
+router.post("/register", validateUser, handleErrors(auth.register));
 router.post(
     "/login",
     storeReturnTo,
@@ -48,23 +27,7 @@ router.post(
         failureFlash: true,
         failureRedirect: "/auth/login",
     }),
-    (req, res) => {
-        req.flash("success", "Welcome");
-        const redirectUrl = res.locals.returnTo || "/campgrounds";
-        delete req.session.returnTo;
-        res.status(200).redirect(redirectUrl);
-    }
+    auth.login
 );
-
-router.get("/logout", isLoggedIn, (req, res) => {
-    req.logOut((error) => {
-        if (error) {
-            return next(error);
-        }
-
-        req.flash("success", "Logged out successfully");
-        res.status(200).redirect("/campgrounds");
-    });
-});
 
 module.exports = router;
