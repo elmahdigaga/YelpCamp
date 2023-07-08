@@ -6,7 +6,7 @@ async function seedCampground(author) {
     try {
         await Campground.create({
             name: faker.location.street(),
-            image: faker.image.url(),
+            images: [faker.image.url(), faker.image.url()],
             price: faker.number.int({ max: 1000 }),
             description: faker.lorem.sentence(),
             location: faker.location.city() + ", " + faker.location.country(),
