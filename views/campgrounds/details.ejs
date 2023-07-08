@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate')%> <%- include("../partials/flash") %>
+<link rel="stylesheet" type="text/css" href="/css/starability-basic.min.css" />
 
 <div class="row">
     <div class="col-6">
@@ -48,7 +49,7 @@
             novalidate
         >
             <div class="mb-3">
-                <label class="form-label" for="rating">Rating</label>
+                <!-- <label class="form-label" for="rating">Rating</label>
                 <input
                     class="form-range"
                     type="range"
@@ -56,7 +57,53 @@
                     max="5"
                     name="rating"
                     id="rating"
-                />
+                /> -->
+                <fieldset class="starability-basic">
+                    <input
+                        type="radio"
+                        id="no-rate"
+                        class="input-no-rate"
+                        name="rating"
+                        value="0"
+                        checked
+                        aria-label="No rating."
+                    />
+                    <input
+                        type="radio"
+                        id="first-rate1"
+                        name="rating"
+                        value="1"
+                    />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input
+                        type="radio"
+                        id="first-rate2"
+                        name="rating"
+                        value="2"
+                    />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input
+                        type="radio"
+                        id="first-rate3"
+                        name="rating"
+                        value="3"
+                    />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input
+                        type="radio"
+                        id="first-rate4"
+                        name="rating"
+                        value="4"
+                    />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input
+                        type="radio"
+                        id="first-rate5"
+                        name="rating"
+                        value="5"
+                    />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                </fieldset>
                 <div class="invalid-feedback">Rating field is required</div>
             </div>
             <div class="mb-3">
@@ -76,14 +123,13 @@
         <% } %> <% for(let review of campground.reviews) { %>
         <div class="card mb-3">
             <div class="card-body">
-                <h5 class="card-title">
-                    Rating: <% for(let i = 0; i < review.rating; ++i) { %>
-                    <img src="/images/star.png" alt="" />
-                    <% } %>
-                </h5>
-                <h6 class="card-subtitle mb-2 text-muted">
-                    By <%= review.author.username %>
-                </h6>
+                <h5 class="card-title"><%= review.author.username %></h5>
+                <p
+                    class="starability-result"
+                    data-rating="<%= review.rating %>"
+                >
+                    Rated: <%= review.rating %> stars
+                </p>
                 <p class="card-text">Review: <%= review.body %></p>
                 <% if(currentUser && review.author.equals(currentUser._id)) { %>
                 <form
