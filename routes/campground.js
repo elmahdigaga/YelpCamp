@@ -56,7 +56,7 @@ router
     .get(handleErrors(campground.index))
     .post(
         isLoggedIn,
-        parser.single("image"),
+        parser.array("image"),
         validateCampground,
         handleErrors(campground.create)
     );
