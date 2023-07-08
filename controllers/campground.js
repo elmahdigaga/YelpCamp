@@ -39,12 +39,15 @@ const renderDetails = async (req, res) => {
 
 const create = async (req, res) => {
     const { name, price, description, location } = req.body;
-    const image = req.file.path;
     const author = req.user._id;
+    const images = req.files.map((file) => ({
+        url: file.path,
+        filename: file.filename,
+    }));
 
     const campground = await Campground.create({
         name,
-        image,
+        images,
         price,
         description,
         location,
@@ -57,13 +60,13 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
     const { id } = req.params;
-    const { name, image, price, description, location } = req.body;
+    const { name, images, price, description, location } = req.body;
 
     await Campground.updateOne(
         { _id: id },
         {
             name,
-            image,
+            images,
             price,
             description,
             location,

@@ -7,7 +7,7 @@ const campgroundSchema = new Schema({
         type: String,
         required: [true, "Name is required"],
     },
-    image: [
+    images: [
         {
             url: String,
             filename: String,
