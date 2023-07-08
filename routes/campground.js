@@ -1,5 +1,7 @@
 // Packages
 const express = require("express");
+const path = require("path");
+const multer = require("multer");
 
 // Controllers
 const campground = require("../controllers/campground");
@@ -18,6 +20,7 @@ const { isAuthor } = require("../middlewares/auth/is-author");
 const { handleErrors } = require("../utils/helpers");
 
 const router = express.Router();
+const upload = multer({ dest: path.join(__dirname, "../public/images") });
 
 // /create
 router.get("/create", isLoggedIn, campground.renderCreate);
@@ -53,6 +56,10 @@ router
 router
     .route("/")
     .get(handleErrors(campground.index))
-    .post(isLoggedIn, validateCampground, handleErrors(campground.create));
+    .post(
+        isLoggedIn,
+        /*validateCampground,*/ upload.single("image"),
+        handleErrors(campground.create)
+    );
 
 module.exports = router;
