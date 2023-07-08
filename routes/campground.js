@@ -8,6 +8,7 @@ const {
     validateCampgroundId,
 } = require("../middlewares/validation/validate-id");
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
+const { isAuthor } = require("../middlewares/auth/is-author");
 
 const router = express.Router();
 
@@ -36,14 +37,11 @@ router.get(
     "/:id/edit",
     isLoggedIn,
     validateCampgroundId,
+    isAuthor,
     handleErrors(async (req, res) => {
         const { id } = req.params;
 
         const campground = await Campground.findOne({ _id: id });
-        if (!campground) {
-            req.flash("error", "Campground Not Found!");
-            res.status(404).redirect("/campgrounds");
-        }
 
         res.status(200).render("campgrounds/edit", { campground });
     })
@@ -96,12 +94,13 @@ router.patch(
     "/:id",
     isLoggedIn,
     validateCampgroundId,
+    isAuthor,
     validateCampground,
     handleErrors(async (req, res) => {
         const { id } = req.params;
         const { name, image, price, description, location } = req.body;
 
-        const campground = await Campground.findOneAndUpdate(
+        await Campground.updateOne(
             { _id: id },
             {
                 name,
@@ -112,10 +111,6 @@ router.patch(
                 date_modified: Date.now(),
             }
         );
-        if (!campground) {
-            req.flash("error", "Campground Not Found!");
-            res.status(404).redirect("/campgrounds");
-        }
 
         req.flash("success", "Campground updated successfully!");
         res.status(200).redirect(`/campgrounds/${id}`);
@@ -127,14 +122,11 @@ router.delete(
     "/:id",
     isLoggedIn,
     validateCampgroundId,
+    isAuthor,
     handleErrors(async (req, res) => {
         const { id } = req.params;
 
-        const campground = await Campground.findOneAndDelete({ _id: id });
-        if (!campground) {
-            req.flash("error", "Campground Not Found!");
-            res.status(404).redirect("/campgrounds");
-        }
+        await Campground.deleteOne({ _id: id });
 
         req.flash("success", "Campground deleted successfully!");
         res.status(200).redirect("/campgrounds");
