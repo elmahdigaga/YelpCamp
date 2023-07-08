@@ -13,21 +13,26 @@ const { validateUser } = require("../middlewares/validation/validate-user");
 
 const router = express.Router();
 
-// GET
-router.get("/register", auth.renderRegister);
-router.get("/login", auth.renderLogin);
-router.get("/logout", isLoggedIn, auth.logout);
+// /register
+router
+    .route("/register")
+    .get(auth.renderRegister)
+    .post(validateUser, handleErrors(auth.register));
 
-// POST
-router.post("/register", validateUser, handleErrors(auth.register));
-router.post(
-    "/login",
-    storeReturnTo,
-    passport.authenticate("local", {
-        failureFlash: true,
-        failureRedirect: "/auth/login",
-    }),
-    auth.login
-);
+// /login
+router
+    .route("/login")
+    .get(auth.renderLogin)
+    .post(
+        storeReturnTo,
+        passport.authenticate("local", {
+            failureFlash: true,
+            failureRedirect: "/auth/login",
+        }),
+        auth.login
+    );
+
+// /logout
+router.get("/logout", isLoggedIn, auth.logout);
 
 module.exports = router;
