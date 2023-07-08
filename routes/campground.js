@@ -55,7 +55,7 @@ router.get(
         const { id } = req.params;
 
         const campground = await Campground.findOne({ _id: id })
-            .populate("reviews")
+            .populate({ path: "reviews", populate: { path: "author" } })
             .populate("author");
         if (!campground) {
             req.flash("error", "Campground Not Found!");
