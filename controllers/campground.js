@@ -39,7 +39,7 @@ const renderDetails = async (req, res) => {
 
 const create = async (req, res) => {
     const { name, price, description, location } = req.body;
-    const image = req.file.path.substring(req.file.path.lastIndexOf("/images"));
+    const image = req.file.path;
     const author = req.user._id;
 
     const campground = await Campground.create({

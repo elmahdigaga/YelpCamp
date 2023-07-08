@@ -1,7 +1,6 @@
 // Packages
 const express = require("express");
-const path = require("path");
-const multer = require("multer");
+const parser = require("../config/cloudinary");
 
 // Controllers
 const campground = require("../controllers/campground");
@@ -20,7 +19,6 @@ const { isAuthor } = require("../middlewares/auth/is-author");
 const { handleErrors } = require("../utils/helpers");
 
 const router = express.Router();
-const upload = multer({ dest: path.join(__dirname, "../public/images") });
 
 // /create
 router.get("/create", isLoggedIn, campground.renderCreate);
@@ -58,7 +56,8 @@ router
     .get(handleErrors(campground.index))
     .post(
         isLoggedIn,
-        /*validateCampground,*/ upload.single("image"),
+        parser.single("image"),
+        validateCampground,
         handleErrors(campground.create)
     );
 
