@@ -18,15 +18,6 @@ const { handleErrors } = require("../utils/helpers");
 
 const router = express.Router({ mergeParams: true });
 
-// POST
-router.post(
-    "/",
-    isLoggedIn,
-    validateCampgroundId,
-    validateReview,
-    handleErrors(review.create)
-);
-
 // DELETE
 router.delete(
     "/:reviewId",
@@ -35,6 +26,15 @@ router.delete(
     validateReviewId,
     isReviewAuthor,
     handleErrors(review.remove)
+);
+
+// POST
+router.post(
+    "/",
+    isLoggedIn,
+    validateCampgroundId,
+    validateReview,
+    handleErrors(review.create)
 );
 
 module.exports = router;
