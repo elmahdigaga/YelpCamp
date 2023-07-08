@@ -19,9 +19,10 @@ const { handleErrors } = require("../utils/helpers");
 
 const router = express.Router();
 
-// GET
-router.get("/", handleErrors(campground.index));
+// /create
 router.get("/create", isLoggedIn, campground.renderCreate);
+
+// /:id/edit
 router.get(
     "/:id/edit",
     isLoggedIn,
@@ -29,37 +30,29 @@ router.get(
     isAuthor,
     handleErrors(campground.renderEdit)
 );
-router.get(
-    "/:id",
-    validateCampgroundId,
-    handleErrors(campground.renderDetails)
-);
 
-// POST
-router.post(
-    "/",
-    isLoggedIn,
-    validateCampground,
-    handleErrors(campground.create)
-);
+// /:id
+router
+    .route("/:id")
+    .get(validateCampgroundId, handleErrors(campground.renderDetails))
+    .patch(
+        isLoggedIn,
+        validateCampgroundId,
+        isAuthor,
+        validateCampground,
+        handleErrors(campground.update)
+    )
+    .delete(
+        isLoggedIn,
+        validateCampgroundId,
+        isAuthor,
+        handleErrors(campground.remove)
+    );
 
-// PATCH
-router.patch(
-    "/:id",
-    isLoggedIn,
-    validateCampgroundId,
-    isAuthor,
-    validateCampground,
-    handleErrors(campground.update)
-);
-
-// DELETE
-router.delete(
-    "/:id",
-    isLoggedIn,
-    validateCampgroundId,
-    isAuthor,
-    handleErrors(campground.remove)
-);
+// /
+router
+    .route("/")
+    .get(handleErrors(campground.index))
+    .post(isLoggedIn, validateCampground, handleErrors(campground.create));
 
 module.exports = router;
