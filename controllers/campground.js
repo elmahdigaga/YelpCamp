@@ -61,22 +61,23 @@ const create = async (req, res) => {
 const update = async (req, res) => {
     const { id } = req.params;
     const { name, price, description, location } = req.body;
-    const images = req.files.map((file) => ({
+    const imgs = req.files.map((file) => ({
         url: file.path,
         filename: file.filename,
     }));
 
-    await Campground.updateOne(
+    const campground = await Campground.findOneAndUpdate(
         { _id: id },
         {
             name,
-            images,
             price,
             description,
             location,
             date_modified: Date.now(),
         }
     );
+    campground.images.push(...imgs);
+    await campground.save();
 
     req.flash("success", "Campground updated successfully!");
     res.status(200).redirect(`/campgrounds/${id}`);
