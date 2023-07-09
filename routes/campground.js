@@ -1,6 +1,6 @@
 // Packages
 const express = require("express");
-const parser = require("../config/cloudinary");
+const { parser } = require("../config/cloudinary");
 
 // Controllers
 const campground = require("../controllers/campground");
