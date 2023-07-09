@@ -5,25 +5,25 @@
     <div class="col-6">
         <div class="card mb-3">
             <div
-                id="carouselExampleControls"
+                id="carouselControls"
                 class="carousel slide"
                 data-bs-ride="carousel"
             >
                 <div class="carousel-inner">
-                    <% for(let image of campground.images) { %>
-                    <div class="carousel-item active">
-                        <img
-                            src="<%= image %>"
-                            class="d-block w-100"
-                            alt="..."
-                        />
-                    </div>
-                    <% } %>
+                    <% campground.images.forEach((image, index) => { %>
+                        <div class="carousel-item <%= index === 0 ? "active" : "" %>">
+                            <img
+                                src="<%= image.url %>"
+                                class="d-block w-100"
+                                alt="..."
+                            />
+                        </div>
+                    <% }) %>
                 </div>
                 <button
                     class="carousel-control-prev"
                     type="button"
-                    data-bs-target="#carouselExampleControls"
+                    data-bs-target="#carouselControls"
                     data-bs-slide="prev"
                 >
                     <span
@@ -35,7 +35,7 @@
                 <button
                     class="carousel-control-next"
                     type="button"
-                    data-bs-target="#carouselExampleControls"
+                    data-bs-target="#carouselControls"
                     data-bs-slide="next"
                 >
                     <span

@@ -7,7 +7,7 @@ async function seedCampground(author) {
         const nbrImages = faker.number.int({ min: 1, max: 3 });
         let images = [];
         for (let i = 0; i < nbrImages; ++i) {
-            images.push(faker.image.url());
+            images.push({ url: faker.image.url(), filename: "" });
         }
         await Campground.create({
             name: faker.location.street(),
