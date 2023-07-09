@@ -20,6 +20,7 @@
                         </div>
                     <% }) %>
                 </div>
+                <% if(campground.images.length > 1) { %>
                 <button
                     class="carousel-control-prev"
                     type="button"
@@ -44,6 +45,7 @@
                     ></span>
                     <span class="visually-hidden">Next</span>
                 </button>
+                <% } %>
             </div>
             <div class="card-body">
                 <h5 class="card-title"><%= campground.name %></h5>
