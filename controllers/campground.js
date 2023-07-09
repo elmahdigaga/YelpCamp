@@ -99,7 +99,7 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
     const { id } = req.params;
 
-    await Campground.deleteOne({ _id: id });
+    await Campground.findOneAndDelete({ _id: id });
 
     req.flash("success", "Campground deleted successfully!");
     res.status(200).redirect("/campgrounds");

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { cloudinary } = require("../config/cloudinary");
 const { Review } = require("../models/review");
 const { Schema } = mongoose;
 
@@ -49,6 +50,10 @@ const campgroundSchema = new Schema({
 // Adding a post middleware to delete associated reviews when a campground is deleted
 campgroundSchema.post("findOneAndDelete", async function (campground) {
     try {
+        for (let image of campground.images) {
+            await cloudinary.uploader.destroy(image.filename);
+        }
+
         if (campground.reviews.length) {
             await Review.deleteMany({ _id: { $in: campground.reviews } });
         }
