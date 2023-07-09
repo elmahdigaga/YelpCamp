@@ -60,11 +60,7 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
     const { id } = req.params;
-    const { name, price, description, location } = req.body;
-    const imgs = req.files.map((file) => ({
-        url: file.path,
-        filename: file.filename,
-    }));
+    const { name, price, description, location, deleteImages } = req.body;
 
     const campground = await Campground.findOneAndUpdate(
         { _id: id },
@@ -76,9 +72,22 @@ const update = async (req, res) => {
             date_modified: Date.now(),
         }
     );
-    campground.images.push(...imgs);
-    await campground.save();
 
+    if (req.files.length > 0) {
+        const imgs = req.files.map((file) => ({
+            url: file.path,
+            filename: file.filename,
+        }));
+        campground.images.push(...imgs);
+    }
+
+    if (deleteImages) {
+        await campground.updateOne({
+            $pull: { images: { filename: { $in: deleteImages } } },
+        });
+    }
+
+    await campground.save();
     req.flash("success", "Campground updated successfully!");
     res.status(200).redirect(`/campgrounds/${id}`);
 };
