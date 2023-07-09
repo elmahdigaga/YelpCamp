@@ -3,17 +3,17 @@ const { cloudinary } = require("../config/cloudinary");
 const { Review } = require("../models/review");
 const { Schema } = mongoose;
 
+const imageSchema = new Schema({
+    url: String,
+    filename: String,
+});
+
 const campgroundSchema = new Schema({
     name: {
         type: String,
         required: [true, "Name is required"],
     },
-    images: [
-        {
-            url: String,
-            filename: String,
-        },
-    ],
+    images: [imageSchema],
     price: {
         type: Number,
         required: [true, "Price is required"],
