@@ -40,6 +40,7 @@ router
         isLoggedIn,
         validateCampgroundId,
         isAuthor,
+        parser.array("image"),
         validateCampground,
         handleErrors(campground.update)
     )
