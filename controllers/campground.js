@@ -60,7 +60,11 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
     const { id } = req.params;
-    const { name, images, price, description, location } = req.body;
+    const { name, price, description, location } = req.body;
+    const images = req.files.map((file) => ({
+        url: file.path,
+        filename: file.filename,
+    }));
 
     await Campground.updateOne(
         { _id: id },
