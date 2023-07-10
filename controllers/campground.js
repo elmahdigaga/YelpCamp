@@ -39,7 +39,7 @@ const renderDetails = async (req, res) => {
 };
 
 const create = async (req, res) => {
-    const { name, price, description, location } = req.body;
+    const { name, price, description, location, geometry } = req.body;
     const author = req.user._id;
     const images = req.files.map((file) => ({
         url: file.path,
@@ -52,6 +52,7 @@ const create = async (req, res) => {
         price,
         description,
         location,
+        geometry,
         author,
     });
 
@@ -61,7 +62,8 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
     const { id } = req.params;
-    const { name, price, description, location, deleteImages } = req.body;
+    const { name, price, description, location, geometry, deleteImages } =
+        req.body;
 
     const campground = await Campground.findOneAndUpdate(
         { _id: id },
@@ -70,6 +72,7 @@ const update = async (req, res) => {
             price,
             description,
             location,
+            geometry,
             date_modified: Date.now(),
         }
     );
