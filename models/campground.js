@@ -29,6 +29,17 @@ const campgroundSchema = new Schema({
         type: String,
         required: [true, "Location is required"],
     },
+    geometry: {
+        type: {
+            type: String,
+            enum: ["Point"],
+            required: true,
+        },
+        coordinates: {
+            type: [Number],
+            required: true,
+        },
+    },
     author: {
         type: Schema.Types.ObjectId,
         ref: "User",
@@ -51,7 +62,8 @@ const campgroundSchema = new Schema({
     ],
 });
 
-// Adding a post middleware to delete associated reviews when a campground is deleted
+// post middleware to destroy images from cloudinary when a campground is deleted
+// post middleware to delete associated reviews when a campground is deleted
 campgroundSchema.post("findOneAndDelete", async function (campground) {
     try {
         for (let image of campground.images) {
