@@ -6,12 +6,14 @@ async function getGeometry(req, res, next) {
     try {
         const { location } = req.body;
 
-        req.body.geometry = await geocoder
+        const geoData = await geocoder
             .forwardGeocode({
                 query: location,
                 limit: 1,
             })
             .send();
+
+        req.body.geometry = geoData.body.features[0].geometry;
 
         next();
     } catch (error) {
