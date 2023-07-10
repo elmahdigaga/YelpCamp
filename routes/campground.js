@@ -14,6 +14,7 @@ const {
 } = require("../middlewares/validation/validate-id");
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 const { isAuthor } = require("../middlewares/auth/is-author");
+const { getGeometry } = require("../middlewares/get-geometry");
 
 // Helpers
 const { handleErrors } = require("../utils/helpers");
@@ -42,6 +43,7 @@ router
         isAuthor,
         parser.array("image"),
         validateCampground,
+        getGeometry,
         handleErrors(campground.update)
     )
     .delete(
@@ -59,6 +61,7 @@ router
         isLoggedIn,
         parser.array("image"),
         validateCampground,
+        getGeometry,
         handleErrors(campground.create)
     );
 
