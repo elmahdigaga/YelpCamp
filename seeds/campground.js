@@ -15,6 +15,13 @@ async function seedCampground(author) {
             price: faker.number.int({ max: 1000 }),
             description: faker.lorem.sentence(),
             location: faker.location.city() + ", " + faker.location.country(),
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    faker.location.longitude(),
+                    faker.location.latitude(),
+                ],
+            },
             author,
         });
 
