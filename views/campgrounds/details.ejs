@@ -1,9 +1,11 @@
 <% layout('layouts/boilerplate')%> <%- include("../partials/flash") %>
 <link rel="stylesheet" type="text/css" href="/css/starability-basic.min.css" />
+<link rel="stylesheet" href="/css/mapbox-gl.css">
 
 <div class="row">
     <div class="col-6">
         <div class="card mb-3">
+            <div id="map" style="width: 400px; height: 300px"></div>
             <div
                 id="carouselControls"
                 class="carousel slide"
@@ -179,3 +181,11 @@
 </div>
 
 <script src="/javascript/forms-validation.js"></script>
+
+<script src="/javascript/mapbox-gl.js"></script>
+<script>
+    const mapboxToken = "<%- process.env.MAPBOX_TOKEN %>";
+    const coordinates = <%- JSON.stringify(campground.geometry.coordinates) %>;
+</script>
+<script src="/javascript/mapbox-map.js"></script>
+

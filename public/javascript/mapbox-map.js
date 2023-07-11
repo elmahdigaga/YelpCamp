@@ -1,17 +1,10 @@
-const mapboxToken = document
-    .getElementById("mapbox-map-script")
-    .getAttribute("mapbox-token");
-
-const campground = document
-    .getElementById("mapbox-map-script")
-    .getAttribute("campground");
-
 mapboxgl.accessToken = mapboxToken;
 var map = new mapboxgl.Map({
     container: "map",
-    style: "mapbox://styles/mapbox/streets-v11",
-    center: campground.geometry.coordinates,
+    center: coordinates,
     zoom: 10,
+    style: "mapbox://styles/mapbox/streets-v11",
+    hash: true,
 });
 
-new mapboxgl.Marker().setLngLat(campground.geometry.coordinates).addTo(map);
+const marker = new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
