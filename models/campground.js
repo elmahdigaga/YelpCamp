@@ -12,54 +12,63 @@ imageSchema.virtual("thumbnail").get(function () {
     return this.url.replace("/upload", "/upload/w_200");
 });
 
-const campgroundSchema = new Schema({
-    name: {
-        type: String,
-        required: [true, "Name is required"],
-    },
-    images: [imageSchema],
-    price: {
-        type: Number,
-        required: [true, "Price is required"],
-    },
-    description: {
-        type: String,
-    },
-    location: {
-        type: String,
-        required: [true, "Location is required"],
-    },
-    geometry: {
-        type: {
+const campgroundSchema = new Schema(
+    {
+        name: {
             type: String,
-            enum: ["Point"],
-            required: true,
+            required: [true, "Name is required"],
         },
-        coordinates: {
-            type: [Number],
-            required: true,
+        images: [imageSchema],
+        price: {
+            type: Number,
+            required: [true, "Price is required"],
         },
-    },
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-    },
-    date: {
-        type: Date,
-        default: Date.now,
-        required: true,
-    },
-    date_modified: {
-        type: Date,
-        default: Date.now,
-        required: true,
-    },
-    reviews: [
-        {
+        description: {
+            type: String,
+        },
+        location: {
+            type: String,
+            required: [true, "Location is required"],
+        },
+        geometry: {
+            type: {
+                type: String,
+                enum: ["Point"],
+                required: true,
+            },
+            coordinates: {
+                type: [Number],
+                required: true,
+            },
+        },
+        author: {
             type: Schema.Types.ObjectId,
-            ref: "Review",
+            ref: "User",
         },
-    ],
+        date: {
+            type: Date,
+            default: Date.now,
+            required: true,
+        },
+        date_modified: {
+            type: Date,
+            default: Date.now,
+            required: true,
+        },
+        reviews: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Review",
+            },
+        ],
+    },
+    { toJSON: { virtuals: true } }
+);
+
+campgroundSchema.virtual("properties.popUpMarkup").get(function () {
+    return `
+        <strong><a href="/campgrounds/${this._id}">${this.name}</a></strong>
+        <p>${this.description.substring(0, 20)}...</p>`;
 });
 
 // post middleware to destroy images from cloudinary when a campground is deleted
