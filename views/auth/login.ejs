@@ -1,39 +1,59 @@
-<% layout('layouts/boilerplate')%> <%- include("../partials/flash") %>
+<% layout('layouts/boilerplate')%>
 
-<div class="row">
-    <h1 class="text-center">Login</h1>
-    <div class="col-6 offset-3">
-        <form
-            action="/auth/login"
-            method="POST"
-            class="needs-validation"
-            novalidate
-        >
-            <div class="mb-3">
-                <label class="form-label" for="username">Username</label>
-                <input
-                    class="form-control"
-                    type="text"
-                    id="username"
-                    name="username"
-                    required
+<div class="container d-flex justify-content-center align-items-center mt-3">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+            <div class="card shadow">
+                <img
+                    src="/images/login-thumbnail.avif"
+                    alt=""
+                    class="card-img-top"
                 />
-                <div class="invalid-feedback">Username required</div>
-            </div>
+                <div class="card-body">
+                    <h5 class="card-title">Login</h5>
+                    <form
+                        action="/auth/login"
+                        method="POST"
+                        class="needs-validation"
+                        novalidate
+                    >
+                        <div class="mb-3">
+                            <label class="form-label" for="username"
+                                >Username</label
+                            >
+                            <input
+                                class="form-control"
+                                type="text"
+                                id="username"
+                                name="username"
+                                autofocus
+                                required
+                            />
+                            <div class="invalid-feedback">
+                                Username required
+                            </div>
+                        </div>
 
-            <div class="mb-3">
-                <label class="form-label" for="password">Password</label>
-                <input
-                    class="form-control"
-                    type="password"
-                    id="password"
-                    name="password"
-                    required
-                />
-                <div class="invalid-feedback">Password required</div>
+                        <div class="mb-3">
+                            <label class="form-label" for="password"
+                                >Password</label
+                            >
+                            <input
+                                class="form-control"
+                                type="password"
+                                id="password"
+                                name="password"
+                                required
+                            />
+                            <div class="invalid-feedback">
+                                Password required
+                            </div>
+                        </div>
+                        <button class="btn btn-success btn-block">Login</button>
+                    </form>
+                </div>
             </div>
-            <button class="btn btn-success">Login</button>
-        </form>
+        </div>
     </div>
 </div>
 
