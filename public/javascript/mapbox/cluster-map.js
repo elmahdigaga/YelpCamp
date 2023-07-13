@@ -35,21 +35,13 @@ map.on("load", () => {
             "circle-color": [
                 "step",
                 ["get", "point_count"],
-                "#51bbd6",
-                100,
-                "#f1f075",
-                750,
-                "#f28cb1",
+                "#03A9F4",
+                2,
+                "#2196F3",
+                5,
+                "#3F51B5",
             ],
-            "circle-radius": [
-                "step",
-                ["get", "point_count"],
-                20,
-                100,
-                30,
-                750,
-                40,
-            ],
+            "circle-radius": ["step", ["get", "point_count"], 20, 2, 30, 5, 40],
         },
     });
 

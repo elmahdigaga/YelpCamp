@@ -12,7 +12,7 @@ async function seedReviews() {
         const campgrounds = await Campground.find();
 
         for (let campground of campgrounds) {
-            const reviewCount = faker.number.int({ min: 5, max: 7 });
+            const reviewCount = faker.number.int({ min: 3, max: 5 });
 
             for (let i = 0; i < reviewCount; ++i) {
                 const author =
