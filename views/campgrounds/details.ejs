@@ -186,7 +186,7 @@
 <script src="/javascript/mapbox-gl.js"></script>
 <script>
     const mapboxToken = "<%- process.env.MAPBOX_TOKEN %>";
-    const coordinates = <%- JSON.stringify(campground.geometry.coordinates) %>;
+    const campground = <%- JSON.stringify(campground) %>;
 </script>
 <script src="/javascript/mapbox-map.js"></script>
 
