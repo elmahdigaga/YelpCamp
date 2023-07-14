@@ -6,7 +6,7 @@ const cspDirectives = {
         "picsum.photos",
         "fastly.picsum.photos",
         "loremflickr.com",
-        "res.cloudinary.com",
+        "res.cloudinary.com/drgo3xjcu",
     ],
     scriptSrc: ["'self'", "'unsafe-inline'", "blob:"],
     styleSrc: ["'self'", "'unsafe-inline'", "mapbox:"],
