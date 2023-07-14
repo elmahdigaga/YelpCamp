@@ -22,6 +22,7 @@ const authRouter = require("./routes/auth");
 
 // Config
 const { connectDatabase } = require("./config/database");
+const sessionOptions = require("./config/session-options");
 const cspDirectives = require("./config/csp-directives");
 
 // Models
@@ -40,20 +41,7 @@ app.use(methodOverride("_method"));
 // Security middlewares
 app.use(helmet({ contentSecurityPolicy: { directives: cspDirectives } }));
 // Session middlewares
-app.use(
-    session({
-        name: "session",
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            httpOnly: true,
-            // secure: true,
-            expires: Date.now() + 1000 * 60 * 60 * 24 * 2,
-            maxAge: 1000 * 60 * 60 * 24 * 2, // Two days
-        },
-    })
-);
+app.use(session(sessionOptions));
 app.use(flash());
 // Auth middlewares
 app.use(passport.initialize());
