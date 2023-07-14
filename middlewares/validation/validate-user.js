@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require("../../utils/html-sanitizer");
 
 const userSchema = Joi.object({
     username: Joi.string().alphanum().min(3).max(30).required(),
