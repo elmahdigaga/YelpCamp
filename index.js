@@ -22,7 +22,7 @@ const authRouter = require("./routes/auth");
 
 // Config
 const { connectDatabase } = require("./config/database");
-const cspDirectives = require("./utils/csp-directives");
+const cspDirectives = require("./config/csp-directives");
 
 // Models
 const User = require("./models/user");
