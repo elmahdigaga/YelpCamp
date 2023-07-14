@@ -7,6 +7,7 @@ const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const mongoSanitize = require("express-mongo-sanitize");
 require("dotenv").config();
 
 // Routes
@@ -20,11 +21,11 @@ const { connectDatabase } = require("./config/database");
 // Models
 const User = require("./models/user");
 
-const app = express();
-const port = process.env.PORT || 3000;
-
 // Error handling middleware
 const { errorHandler } = require("./middlewares/error-handler");
+
+const app = express();
+const port = process.env.PORT || 3000;
 
 // Parsing middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -58,6 +59,9 @@ app.use((req, res, next) => {
     res.locals.flashError = req.flash("error");
     next();
 });
+
+// Sanitizing middlewares
+app.use(mongoSanitize());
 
 // Configure server
 app.engine("ejs", ejsMate);
