@@ -1,10 +1,10 @@
 const Joi = require("../../utils/html-sanitizer");
 
 const campgroundSchema = Joi.object({
-    name: Joi.string().min(3).max(30).required(),
+    name: Joi.string().min(3).max(30).required().escapeHTML(),
     price: Joi.number().min(0).required(),
-    description: Joi.string().min(3).required(),
-    location: Joi.string().required(),
+    description: Joi.string().min(3).required().escapeHTML(),
+    location: Joi.string().required().escapeHTML(),
 });
 
 function validateCampground(req, res, next) {

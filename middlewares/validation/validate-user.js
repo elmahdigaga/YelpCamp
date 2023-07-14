@@ -1,9 +1,9 @@
 const Joi = require("../../utils/html-sanitizer");
 
 const userSchema = Joi.object({
-    username: Joi.string().alphanum().min(3).max(30).required(),
-    password: Joi.string().min(4).alphanum().required(),
-    email: Joi.string().email(),
+    username: Joi.string().alphanum().min(3).max(30).required().escapeHTML(),
+    password: Joi.string().min(4).alphanum().required().escapeHTML(),
+    email: Joi.string().email().escapeHTML(),
 });
 
 function validateUser(req, res, next) {
