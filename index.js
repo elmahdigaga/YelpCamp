@@ -27,8 +27,9 @@ const cspDirectives = require("./utils/csp-directives");
 // Models
 const User = require("./models/user");
 
-// Error handling middleware
+// Require middlewares
 const { errorHandler } = require("./middlewares/error-handler");
+const { localsSetter } = require("./middlewares/locals-setter");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -60,12 +61,7 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-app.use((req, res, next) => {
-    res.locals.currentUser = req.user;
-    res.locals.flashSuccess = req.flash("success");
-    res.locals.flashError = req.flash("error");
-    next();
-});
+app.use(localsSetter);
 // Sanitizing middlewares
 app.use(mongoSanitize());
 
