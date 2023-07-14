@@ -14,7 +14,7 @@ const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 const { isReviewAuthor } = require("../middlewares/auth/is-review-author");
 
 // Helpers
-const { handleErrors } = require("../utils/handle-errors");
+const { catchAsyncErr } = require("../utils/catch-async-err");
 
 const router = express.Router({ mergeParams: true });
 
@@ -25,7 +25,7 @@ router.delete(
     validateCampgroundId,
     validateReviewId,
     isReviewAuthor,
-    handleErrors(review.remove)
+    catchAsyncErr(review.remove)
 );
 
 // POST
@@ -34,7 +34,7 @@ router.post(
     isLoggedIn,
     validateCampgroundId,
     validateReview,
-    handleErrors(review.create)
+    catchAsyncErr(review.create)
 );
 
 module.exports = router;

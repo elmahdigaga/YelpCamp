@@ -8,7 +8,7 @@ const auth = require("../controllers/auth");
 // Middlewares
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 const { storeReturnTo } = require("../middlewares/auth/store-return-to");
-const { handleErrors } = require("../utils/handle-errors");
+const { catchAsyncErr } = require("../utils/catch-async-err");
 const { validateUser } = require("../middlewares/validation/validate-user");
 
 const router = express.Router();
@@ -17,7 +17,7 @@ const router = express.Router();
 router
     .route("/register")
     .get(auth.renderRegister)
-    .post(validateUser, handleErrors(auth.register));
+    .post(validateUser, catchAsyncErr(auth.register));
 
 // /login
 router

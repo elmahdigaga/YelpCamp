@@ -8,7 +8,11 @@ const methodOverride = require("method-override");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const mongoSanitize = require("express-mongo-sanitize");
-require("dotenv").config();
+
+// Only require .env constants when in dev env
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
 
 // Routes
 const campgroundsRouter = require("./routes/campground");

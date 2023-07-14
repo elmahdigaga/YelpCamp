@@ -17,7 +17,7 @@ const { isAuthor } = require("../middlewares/auth/is-author");
 const { getGeometry } = require("../middlewares/get-geometry");
 
 // Helpers
-const { handleErrors } = require("../utils/handle-errors");
+const { catchAsyncErr } = require("../utils/catch-async-err");
 
 const router = express.Router();
 
@@ -30,13 +30,13 @@ router.get(
     isLoggedIn,
     validateCampgroundId,
     isAuthor,
-    handleErrors(campground.renderEdit)
+    catchAsyncErr(campground.renderEdit)
 );
 
 // /:id
 router
     .route("/:id")
-    .get(validateCampgroundId, handleErrors(campground.renderDetails))
+    .get(validateCampgroundId, catchAsyncErr(campground.renderDetails))
     .patch(
         isLoggedIn,
         validateCampgroundId,
@@ -44,25 +44,25 @@ router
         parser.array("image"),
         validateCampground,
         getGeometry,
-        handleErrors(campground.update)
+        catchAsyncErr(campground.update)
     )
     .delete(
         isLoggedIn,
         validateCampgroundId,
         isAuthor,
-        handleErrors(campground.remove)
+        catchAsyncErr(campground.remove)
     );
 
 // /
 router
     .route("/")
-    .get(handleErrors(campground.index))
+    .get(catchAsyncErr(campground.index))
     .post(
         isLoggedIn,
         parser.array("image"),
         validateCampground,
         getGeometry,
-        handleErrors(campground.create)
+        catchAsyncErr(campground.create)
     );
 
 module.exports = router;
