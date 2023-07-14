@@ -8,6 +8,7 @@ const methodOverride = require("method-override");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
 
 // Only require .env constants when in dev env
 if (process.env.NODE_ENV !== "production") {
@@ -34,7 +35,8 @@ const port = process.env.PORT || 3000;
 // Parsing middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-
+// Security middlewares
+app.use(helmet());
 // Session middlewares
 app.use(
     session({
@@ -51,21 +53,18 @@ app.use(
     })
 );
 app.use(flash());
-
 // Auth middlewares
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.flashSuccess = req.flash("success");
     res.locals.flashError = req.flash("error");
     next();
 });
-
 // Sanitizing middlewares
 app.use(mongoSanitize());
 
