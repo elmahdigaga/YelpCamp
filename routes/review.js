@@ -14,7 +14,7 @@ const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 const { isReviewAuthor } = require("../middlewares/auth/is-review-author");
 
 // Helpers
-const { handleErrors } = require("../utils/helpers");
+const { handleErrors } = require("../utils/handle-errors");
 
 const router = express.Router({ mergeParams: true });
 

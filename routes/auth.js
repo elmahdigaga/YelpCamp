@@ -8,7 +8,7 @@ const auth = require("../controllers/auth");
 // Middlewares
 const { isLoggedIn } = require("../middlewares/auth/is-logged-in");
 const { storeReturnTo } = require("../middlewares/auth/store-return-to");
-const { handleErrors } = require("../utils/helpers");
+const { handleErrors } = require("../utils/handle-errors");
 const { validateUser } = require("../middlewares/validation/validate-user");
 
 const router = express.Router();

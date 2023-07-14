@@ -17,7 +17,7 @@ const { isAuthor } = require("../middlewares/auth/is-author");
 const { getGeometry } = require("../middlewares/get-geometry");
 
 // Helpers
-const { handleErrors } = require("../utils/helpers");
+const { handleErrors } = require("../utils/handle-errors");
 
 const router = express.Router();
 
