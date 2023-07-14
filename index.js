@@ -22,6 +22,7 @@ const authRouter = require("./routes/auth");
 
 // Config
 const { connectDatabase } = require("./config/database");
+const cspDirectives = require("./utils/csp-directives");
 
 // Models
 const User = require("./models/user");
@@ -36,7 +37,7 @@ const port = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 // Security middlewares
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: { directives: cspDirectives } }));
 // Session middlewares
 app.use(
     session({
