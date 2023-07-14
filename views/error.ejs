@@ -3,7 +3,10 @@
 <div class="row">
     <div class="col-6 offset-3">
         <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading"><%= error %></h4>
+            <h4 class="alert-heading">Internal Server Error</h4>
+            <% if (process.env.NODE_ENV !== "production") { %>
+            <p><%= error %></p>
+            <% } %>
         </div>
     </div>
 </div>
